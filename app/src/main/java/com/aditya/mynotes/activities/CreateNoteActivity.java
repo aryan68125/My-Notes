@@ -21,6 +21,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.speech.tts.TextToSpeech;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,6 +74,12 @@ public class CreateNoteActivity extends AppCompatActivity {
     //handling delete note operation
     //calling the custom delete note alert dialog box
     private AlertDialog dialogDeleteNote;
+
+    //handeling text to speech engine
+    ImageView imageSpeak;
+    //setting up text to speech listener
+    TextToSpeech mtts;
+    int everythingIsOKmttsIsGoodToGo = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,6 +150,36 @@ public class CreateNoteActivity extends AppCompatActivity {
                 imageNote.setVisibility(View.GONE);
                 findViewById(R.id.imageRemoveImage).setVisibility(View.GONE);
                 selectedImagePath = "";
+            }
+        });
+
+        //initating text to speech engine
+        //calling the function speakNote() which handels and initates text to speech engine when the activity is first created
+        speakNote();
+
+        //handeling text to speech engine
+        imageSpeak = findViewById(R.id.imageSpeak);
+        //speak option will only be visible when you are viewing or updating already existing note
+        if(alreadyAvailableNote!=null)
+        {
+            imageSpeak.setVisibility(View.VISIBLE);
+        }
+
+        imageSpeak.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //here text to speech engine logic will come
+                //add text to speech engine
+                if (everythingIsOKmttsIsGoodToGo == 1) {
+                    String text = inputNoteText.getText().toString();
+                    mtts.setPitch(1.1f); //setting up the pitch and speed of the speech in text to speech engine
+                    mtts.setSpeechRate(1.1f);
+                    //making text to speech engine to speek our entered text
+                    //TextToSpeech.QUEUE_FLUSH = current txt is cancled to speak a new one
+                    //TextToSpeech.QUEUE_ADD the next text is spoken after the previous text is finished
+                    //mtts.speak(Passing the content of our editText, TextToSpeech.QUEUE_FLUSH,null);
+                    mtts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                }
             }
         });
 
@@ -582,6 +619,7 @@ public class CreateNoteActivity extends AppCompatActivity {
         inputNoteSubtitle.setText(alreadyAvailableNote.getSubtitle());
         inputNoteText.setText(alreadyAvailableNote.getNoteText());
         textDateTime.setText(alreadyAvailableNote.getDateTime());
+
         if(alreadyAvailableNote.getImagePath()!= null && !alreadyAvailableNote.getImagePath().trim().isEmpty())
         {
             try {
@@ -662,6 +700,31 @@ public class CreateNoteActivity extends AppCompatActivity {
         dialogDeleteNote.show(); //showing showDeleteNoteDialog
 
     }//showDeleteNoteDialog function closed
+
+    //text to speech engine function speak note's content
+    public void speakNote()
+    {
+        //code related to text to speech engine
+        //setting up text to speech engine
+        mtts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    //checking if this set language method was successfull
+                    int result = mtts.setLanguage(Locale.ENGLISH); //passing language to our text to speech engine if its initializaton is a success
+                    if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                        //if there is a missing data or language not supported by the device then we will show an error message
+                        Toast.makeText(getApplicationContext(), "Either the language is not supported by your device or the input field is empty", Toast.LENGTH_LONG).show();
+                    } else {
+                        //if there is no error and text to speech is successfully loaded then button is enabled
+                        everythingIsOKmttsIsGoodToGo = 1;
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Initialization of text to speech engine failed!!", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
 
 
 }//main class closed

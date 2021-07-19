@@ -87,30 +87,30 @@
         android:background="@drawable/background_search"
         >
       <ImageView
-          android:id="@+id/imageAddNote"
+          android:id="@+id/imageSignup"
           android:contentDescription="@string/app_name"
           android:layout_width="@dimen/_23sdp"
           android:layout_height="@dimen/_23sdp"
-          android:src="@drawable/ic_add_outline"
-          android:tint="#43A047"
+          android:src="@drawable/signup"
+          android:tint="#4378A0"
           />
         <ImageView
-            android:id="@+id/imageAddImage"
+            android:id="@+id/imageLogin"
             android:layout_marginStart="@dimen/_15sdp"
             android:contentDescription="@string/app_name"
             android:layout_width="@dimen/_23sdp"
             android:layout_height="@dimen/_23sdp"
-            android:src="@drawable/ic_image"
-            android:tint="#F4511E"
+            android:src="@drawable/login"
+            android:tint="#3A7829"
             />
         <ImageView
-            android:id="@+id/imageAddWebLink"
+            android:id="@+id/imageLogout"
             android:layout_marginStart="@dimen/_15sdp"
             android:contentDescription="@string/app_name"
             android:layout_width="@dimen/_23sdp"
             android:layout_height="@dimen/_23sdp"
-            android:src="@drawable/ic_web_link"
-            android:tint="#3949AB"
+            android:src="@drawable/logout"
+            android:tint="#F40606"
             />
         <ImageView
             android:id="@+id/imageDeveloperInfo"

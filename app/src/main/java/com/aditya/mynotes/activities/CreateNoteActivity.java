@@ -255,7 +255,15 @@ public class CreateNoteActivity extends AppCompatActivity {
                            inputNoteText.setText(newTextAfterTextDetection);
                         }
                         else {
-                            inputNoteText.setText(text);
+                            if (!inputNoteText.getText().toString().equals(""))
+                            {
+                                String alreadyAvailable_note_text =  inputNoteText.getText().toString();
+                                String newTextAfterTextDetection = alreadyAvailable_note_text +"\n" + text;
+                                inputNoteText.setText(newTextAfterTextDetection);
+                            }
+                            else {
+                                inputNoteText.setText(text);
+                            }
                         }
                     }
                 });

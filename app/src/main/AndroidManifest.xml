@@ -10,7 +10,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyNotes">
-        <activity android:name=".firebase_authentication.RegisterActivity"></activity>
         <activity
             android:name=".splash_screen.SpalshActivity"
             android:parentActivityName=".activities.MainActivity"

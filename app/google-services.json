@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "749403981638",
+    "project_id": "my-notes-4f74a",
+    "storage_bucket": "my-notes-4f74a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:749403981638:android:0828c0032fc05b86a88747",
+        "android_client_info": {
+          "package_name": "com.aditya.mynotes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "749403981638-p7cqsf55aitvmg8ev3oi8qabus9952v7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVXbF_gsu6-pCGguY29JJUhpMa-KDrv7k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "749403981638-p7cqsf55aitvmg8ev3oi8qabus9952v7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

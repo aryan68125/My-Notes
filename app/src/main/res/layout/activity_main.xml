@@ -86,31 +86,33 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:background="@drawable/background_search"
         >
-      <ImageView
-          android:id="@+id/imageSignup"
-          android:contentDescription="@string/app_name"
-          android:layout_width="@dimen/_23sdp"
-          android:layout_height="@dimen/_23sdp"
-          android:src="@drawable/signup"
-          android:tint="#4378A0"
-          />
         <ImageView
-            android:id="@+id/imageLogin"
+            android:id="@+id/imageAddNote"
             android:layout_marginStart="@dimen/_15sdp"
             android:contentDescription="@string/app_name"
             android:layout_width="@dimen/_23sdp"
             android:layout_height="@dimen/_23sdp"
-            android:src="@drawable/login"
-            android:tint="#3A7829"
+            android:src="@drawable/ic_add"
+            android:background="@drawable/background_add_button"
+            android:tint="@color/black"
             />
         <ImageView
-            android:id="@+id/imageLogout"
+            android:id="@+id/imageAddImage"
             android:layout_marginStart="@dimen/_15sdp"
             android:contentDescription="@string/app_name"
             android:layout_width="@dimen/_23sdp"
             android:layout_height="@dimen/_23sdp"
-            android:src="@drawable/logout"
-            android:tint="#F40606"
+            android:src="@drawable/ic_image"
+            android:tint="#6906F4"
+            />
+        <ImageView
+            android:id="@+id/imageAddWebLink"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:contentDescription="@string/app_name"
+            android:layout_width="@dimen/_23sdp"
+            android:layout_height="@dimen/_23sdp"
+            android:src="@drawable/ic_web_link"
+            android:tint="#4378A0"
             />
         <ImageView
             android:id="@+id/imageDeveloperInfo"
@@ -122,20 +124,4 @@
             />
 
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/imageAddNoteMain"
-        android:layout_width="@dimen/_40sdp"
-        android:layout_height="@dimen/_40sdp"
-        android:layout_marginEnd="@dimen/_30sdp"
-        android:background="@drawable/background_add_button"
-        android:contentDescription="@string/app_name"
-        android:padding="@dimen/_5sdp"
-        android:src="@drawable/ic_add"
-        android:tint="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/layoutQuickActions"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf = "@+id/layoutQuickActions"
-        />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

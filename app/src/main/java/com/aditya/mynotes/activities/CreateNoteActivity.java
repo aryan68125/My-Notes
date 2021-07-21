@@ -1,12 +1,5 @@
 package com.aditya.mynotes.activities;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -15,6 +8,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
@@ -31,10 +25,24 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.aditya.mynotes.R;
 import com.aditya.mynotes.database.NotesDatabase;
 import com.aditya.mynotes.entities.Note;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.firebase.ml.vision.FirebaseVision;
+import com.google.firebase.ml.vision.common.FirebaseVisionImage;
+import com.google.firebase.ml.vision.text.FirebaseVisionText;
+import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -58,6 +66,8 @@ public class CreateNoteActivity extends AppCompatActivity {
 
     //this is included in the logic for image selection to import image inside the note application
     private ImageView imageNote;
+    //handling text from image detection
+    TextView extract_text_from_image;
 
     //this variable will store the directory of the selected image file
     private String selectedImagePath;
@@ -90,6 +100,8 @@ public class CreateNoteActivity extends AppCompatActivity {
 
         //this is included in the logic for image selection to import image inside the note application
         imageNote = findViewById(R.id.imageNote);
+        //handling text detection from image
+        extract_text_from_image = findViewById(R.id.extract_text_from_image);
 
         //handeling web link
         textWebURL = findViewById(R.id.textWebURL);
@@ -150,6 +162,9 @@ public class CreateNoteActivity extends AppCompatActivity {
                 imageNote.setVisibility(View.GONE);
                 findViewById(R.id.imageRemoveImage).setVisibility(View.GONE);
                 selectedImagePath = "";
+
+                //set extract_text_from_image textView Button invisible
+                extract_text_from_image.setVisibility(View.GONE);
             }
         });
 
@@ -180,6 +195,81 @@ public class CreateNoteActivity extends AppCompatActivity {
                     //mtts.speak(Passing the content of our editText, TextToSpeech.QUEUE_FLUSH,null);
                     mtts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
                 }
+            }
+        });
+
+        //handling add image via quick actions menu
+        if(getIntent().getBooleanExtra("isFromQuickActions",false))
+        {
+            String type  = getIntent().getStringExtra("quickActionType");
+            if(type!= null)
+            {
+                if(type.equals("image"))
+                {
+                    selectedImagePath = getIntent().getStringExtra("imagePath");
+                    imageNote.setImageBitmap(BitmapFactory.decodeFile(selectedImagePath));
+                    imageNote.setVisibility(View.VISIBLE);
+                    findViewById(R.id.imageRemoveImage).setVisibility(View.VISIBLE);
+
+                    //set extract_text_from_image button TextView Visible
+                    extract_text_from_image.setVisibility(View.VISIBLE);
+                }
+                else if(type.equals("URL"))
+                {
+                    textWebURL.setText(getIntent().getStringExtra("URL"));
+                    layoutWebURL.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+
+        //handling text detection from image
+        //setting up detect text from image button
+        extract_text_from_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //here call the firebase function for text detection from imageView
+
+                //get image bitmap from image_view
+                Bitmap bitmap=((BitmapDrawable)imageNote.getDrawable()).getBitmap();
+                //step 1. To create a FirebaseVisionImage object from a Bitmap object:
+                FirebaseVisionImage firebaseVisionImage = FirebaseVisionImage.fromBitmap(bitmap);
+                //step 2. get an instance of firebaseVision
+                FirebaseVision firebaseVision = FirebaseVision.getInstance();
+                //step 3. Create an instance of firebaseVisionTextRecognizer
+                FirebaseVisionTextRecognizer firebaseVisionTextRecognizer = firebaseVision.getOnDeviceTextRecognizer();
+                //step 4. create a task to process an image
+                Task<FirebaseVisionText> task = firebaseVisionTextRecognizer.processImage(firebaseVisionImage);
+                //step 5. if the task is sucessfull then display the text in the image else display error message
+
+                //task if success ful
+                task.addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
+                    @Override
+                    //the text which is extracted will be available in this argument of onSuccess
+                    public void onSuccess(FirebaseVisionText firebaseVisionText) {
+                        //now we can finally get the text from the firebaseVisionText
+                        String text = firebaseVisionText.getText();
+                        if(alreadyAvailableNote!=null)
+                        {
+                           String alreadyAvailable_note_text =  inputNoteText.getText().toString();
+                           String newTextAfterTextDetection = alreadyAvailable_note_text +"\n" + text;
+                           inputNoteText.setText(newTextAfterTextDetection);
+                        }
+                        else {
+                            inputNoteText.setText(text);
+                        }
+                    }
+                });
+
+                //task on failure
+                task.addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                        Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+
+                    }
+                });
+
             }
         });
 
@@ -247,6 +337,7 @@ public class CreateNoteActivity extends AppCompatActivity {
         }
 
         new SaveNoteTask().execute();
+        mtts.shutdown();
     }
 
     //this method handles back button of android os
@@ -530,11 +621,13 @@ public class CreateNoteActivity extends AppCompatActivity {
                     try {
                         InputStream inputStream = getContentResolver().openInputStream(selectedImageUri);
                         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                        imageNote.setImageBitmap(bitmap);
+                        imageNote.setImageBitmap(bitmap); //setting image to imageNote in createNote xml file
                         imageNote.setVisibility(View.VISIBLE);
                         //getting the path of the selected image file
                         selectedImagePath = getPathFromUri(selectedImageUri);
                         findViewById(R.id.imageRemoveImage).setVisibility(View.VISIBLE);
+                        //extract text from image button visible
+                        extract_text_from_image.setVisibility(View.VISIBLE);
                     }
                     catch (Exception e)
                     {
@@ -627,6 +720,9 @@ public class CreateNoteActivity extends AppCompatActivity {
                 imageNote.setVisibility(View.VISIBLE);
                 findViewById(R.id.imageRemoveImage).setVisibility(View.VISIBLE);
                 selectedImagePath = alreadyAvailableNote.getImagePath();
+
+                //make extract_text_from_image button textView visible
+                extract_text_from_image.setVisibility(View.VISIBLE);
             }
             catch (Exception e)
             {

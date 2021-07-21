@@ -27,7 +27,7 @@ public class Note implements Serializable
     @ColumnInfo(name = "note_text")
     private String noteText;
 
-    @ColumnInfo(name = "image_path")
+    @ColumnInfo(name = "image_path") //this column stores image path in the database
     private String imagePath;
 
     @ColumnInfo(name = "color")

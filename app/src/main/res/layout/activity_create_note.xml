@@ -152,7 +152,25 @@
                 app:layout_constraintEnd_toEndOf="@id/imageNote"
                 app:layout_constraintTop_toTopOf="@id/imageNote"
                 />
-
+            <TextView
+                android:id="@+id/extract_text_from_image"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_30sdp"
+                android:background="@drawable/background_detect_text_from_image"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:text="Detect Text From Image"
+                android:textColor="#ffffff"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/_15sdp"
+                android:paddingEnd="@dimen/_15sdp"
+                android:paddingTop="@dimen/_5sdp"
+                android:paddingBottom="@dimen/_5sdp"
+                android:contentDescription="@string/app_name"
+                app:layout_constraintTop_toBottomOf="@id/imageNote"
+                app:layout_constraintStart_toStartOf="@id/imageNote"
+                android:visibility="gone"
+                />
             <LinearLayout
                 android:id="@+id/layoutWebURL"
                 android:layout_width="match_parent"
@@ -163,7 +181,7 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/imageNote"
+                app:layout_constraintTop_toBottomOf="@+id/extract_text_from_image"
                 >
                 
                 <TextView

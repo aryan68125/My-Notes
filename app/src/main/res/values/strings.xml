@@ -15,4 +15,5 @@
     <string name="delete_note">Delete Note</string>
     <string name="delete">Delete</string>
     <string name="ok">ok</string>
+    <string name="detect_text_from_image">Detect Text from Image</string>
 </resources>

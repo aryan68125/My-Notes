@@ -60,6 +60,7 @@ public class CreateNoteActivity extends AppCompatActivity {
 
     //request code for reading external storage
     private static final int REQUEST_CODE_STORAGE_PERMISSION=1;
+    //
 
     //request code for selecting image from the storage
     private static final int REQUEST_CODE_SELECT_IMAGE = 2;

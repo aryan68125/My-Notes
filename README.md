@@ -34,6 +34,7 @@ The Detected text from the image will be automatically added to the Note's body:
 ![](app/src/main/res/drawable/ten.png)
 
 Developer page:
+![](app/src/main/res/drawable/eleven.png)
 
 Add url from the web to your notes:
 ![](app/src/main/res/drawable/twelve.png)

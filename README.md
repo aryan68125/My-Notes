@@ -5,6 +5,8 @@ You can add pictures to your notes application from the gallery of your android 
 I also have the ability to pull out text from the images that are added in the notes (text recognintion using ML kit)
 You can also add links from the web to your notes in this notes application
 
+NOTE:- I used ROOM database in this application provided and recommended by Google
+
 All the preview pictures are shown below:->
 
 Splash screen:

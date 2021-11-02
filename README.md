@@ -5,7 +5,6 @@ Features:-
 3. Pull out text from the added photos
 4. Built-in search functionality
 
-NOTE:- I used ROOM database in this application provided and recommended by Google
 
 All the preview pictures are shown below:->
 

@@ -1,9 +1,9 @@
 # My-Notes
-This Notes application is built using material design language and Database used in this application is Room Database that is provided by Google in android Os 
-by default and is supported by android studio natively.
-You can add pictures to your notes application from the gallery of your android device
-I also have the ability to pull out text from the images that are added in the notes (text recognintion using ML kit)
-You can also add links from the web to your notes in this notes application
+Features:-
+1. Add photos from the gallery to your notes
+2. Add links from the web
+3. Pull out text from the added photos
+4. Built-in search functionality
 
 NOTE:- I used ROOM database in this application provided and recommended by Google
 

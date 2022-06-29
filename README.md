@@ -5,6 +5,8 @@ Features:-
 3. Pull out text from the added photos
 4. Built-in search functionality
 
+You can download the apk of this project from the releases section
+
 
 All the preview pictures are shown below:->
 
